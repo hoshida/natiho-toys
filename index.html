@@ -58,7 +58,12 @@
         <script type="text/javascript">
             $(function () {
                 $("#keyboard button").on("click", function () {
-                    $("#display").text($(this).text());
+                    const $btn = $(this);
+                    $("#display").text($btn.text());
+                    const className = $btn.attr('class');
+                    const colorName = className.substr(className.indexOf('btn-outline-')).substr(12);
+                    $("#display").attr('class', '');
+                    $("#display").addClass("text-" + colorName);
                 });
             })
         </script>
