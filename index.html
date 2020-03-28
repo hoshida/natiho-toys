@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <title>Natiho ABC!</title>
+    </head>
+    <body>
+        <div class="container-fluid vh-100 bg-info">
+            <div class="card h-75">
+                <div class="card-body text-center">
+                    <span id="display" style="font-size: 20em">A</span>
+                </div>
+            </div>
+            <div id="keyboard" class="card h-25">
+                <div class="card-body">
+                    <button type="button" class="btn btn-outline-primary">A</button>
+                    <button type="button" class="btn btn-outline-primary">B</button>
+                    <button type="button" class="btn btn-outline-primary">C</button>
+                    <button type="button" class="btn btn-outline-primary">D</button>
+                    <button type="button" class="btn btn-outline-primary">E</button>
+                    <button type="button" class="btn btn-outline-primary">F</button>
+                    <button type="button" class="btn btn-outline-primary">G</button>
+                    <button type="button" class="btn btn-outline-primary">H</button>
+                    <button type="button" class="btn btn-outline-primary">I</button>
+                    <button type="button" class="btn btn-outline-primary">J</button>
+                    <button type="button" class="btn btn-outline-primary">K</button>
+                    <button type="button" class="btn btn-outline-primary">L</button>
+                    <button type="button" class="btn btn-outline-primary">M</button>
+                    <button type="button" class="btn btn-outline-primary">N</button>
+                    <button type="button" class="btn btn-outline-primary">O</button>
+                    <button type="button" class="btn btn-outline-primary">P</button>
+                    <button type="button" class="btn btn-outline-primary">Q</button>
+                    <button type="button" class="btn btn-outline-primary">R</button>
+                    <button type="button" class="btn btn-outline-primary">S</button>
+                    <button type="button" class="btn btn-outline-primary">T</button>
+                    <button type="button" class="btn btn-outline-primary">U</button>
+                    <button type="button" class="btn btn-outline-primary">V</button>
+                    <button type="button" class="btn btn-outline-primary">W</button>
+                    <button type="button" class="btn btn-outline-primary">X</button>
+                    <button type="button" class="btn btn-outline-primary">Y</button>
+                    <button type="button" class="btn btn-outline-primary">Z</button>
+                </div>
+            </div>
+        </div>
+        <!-- scripts -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>        
+        <script type="text/javascript">
+            $(function () {
+                $("#keyboard button").on("click", function () {
+                    $("#display").text($(this).text());
+                });
+            })
+        </script>
+    </body>
+</html>
