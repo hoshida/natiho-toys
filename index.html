@@ -19,17 +19,17 @@
         </style>
     </head>
     <body class="bg-info">
-        <div class="container-md vh-100">
-            <div class="card" style="height: 65%">
+        <div id="root" class="container-md">
+            <div id="display-container" class="card" style="height: 50%">
                 <div class="card-body text-center">
-                    <span id="display" style="font-size: 18em">A</span>
+                    <span id="display"> </span>
                 </div>
             </div>
-            <div id="keyboard" class="card" style="height: 35%">
+            <div id="keyboard" class="card" style="height: 50%">
                 <div class="card-body text-center">
                     <div class="row">
                         <div class="d-flex justify-content-around col-md-4 mb-3">
-                            <button type="button" class="btn btn-lg btn-outline-danger">A</button>
+                            <button type="button" class="btn btn-lg btn-outline-danger" id="startButton">A</button>
                             <button type="button" class="btn btn-lg btn-outline-danger">B</button>
                             <button type="button" class="btn btn-lg btn-outline-danger">C</button>
                         </div>
@@ -91,6 +91,14 @@
                     $("#display").attr('class', '');
                     $("#display").addClass("text-" + colorName);
                 });
+
+                $("#startButton").click();
+
+                const height = $(window).height();
+                $("#root").height(height);
+
+                const displayHeight = $("#display-container").height();
+                $("#display").css("font-size", `${displayHeight * 0.6}px`);
             })
         </script>
     </body>
