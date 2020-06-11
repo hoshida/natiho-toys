@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <title>Natiho ABC!</title>
+
+        <style type="text/css">
+            #keyboard button {
+                font-size: 2rem;
+                min-width: 4rem;
+                min-height: 4rem;
+            }
+            #keyboard [class*="col-"] {
+                padding-right: 0;
+                padding-left: 0;
+            }
+        </style>
+    </head>
+    <body class="bg-info">
+        <div id="root" class="container-md">
+            <div id="display-container" class="card" style="height: 65%">
+                <div class="card-body text-center">
+                    <span id="display"> </span>
+                </div>
+            </div>
+            <div id="keyboard" class="card" style="height: 35%">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger" id="startButton">A</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger">B</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger">C</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">D</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">E</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">F</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">G</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">H</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">I</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-info">J</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-info">K</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-info">L</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-primary">M</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-primary">N</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-primary">O</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger">P</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger">Q</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-danger">R</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">S</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">T</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-warning">U</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">V</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">W</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-success">X</button>
+                        </div>
+                        <div class="d-flex justify-content-around col-md-4 mb-3">
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-info">Y</button>
+                            <button type="button" class="shadow-sm btn btn-lg btn-outline-info">Z</button>
+                            <button type="button" class="invisible btn btn-lg btn-outline-info">!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#keyboard button").on("click", function () {
+                    const letter = displayLetter($(this));
+                    playSound(letter);
+                });
+
+                const height = $(window).height();
+                $("#root").height(height);
+
+                const displayHeight = $("#display-container").height();
+                $("#display").css("font-size", `${displayHeight * 0.6}px`);
+
+                displayLetter($("#startButton"));
+            });
+
+            function displayLetter($btn) {
+                const letter = $btn.text();
+                $("#display").text(letter);
+                const className = $btn.attr('class');
+                const colorName = className.substr(className.indexOf('btn-outline-')).substr(12);
+                $("#display").attr('class', '');
+                $("#display").addClass("text-" + colorName);
+                return letter;
+            }
+
+            const sounds = {};
+            function playSound(letter) {
+                letter = letter.toLowerCase();
+                if (sounds[letter] == null) {
+                    sounds[letter] = new Audio(`./assets/sounds/alphabet/alphabet02_${letter}_01.wav`);
+                }
+                sounds[letter].play();
+            }
+        </script>
+    </body>
+</html>
