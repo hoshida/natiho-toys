@@ -4,16 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
 
         <title>Natiho Toys!</title>
 
         <style type="text/css">
+
             #palette div {
                 width: 4rem;
                 height: 4rem;
                 border-radius: 2rem;
-                border: currentcolor solid 10px;
+                border: currentcolor solid 4px;
                 background-color: currentcolor;
+                box-sizing: border-box;
             }
 
         </style>
@@ -23,13 +26,13 @@
             <div id="canvas" class="border shadow mb-5" style="height: 85%"></div>
             <div id="toolbox">
                 <div id="palette" class="d-flex justify-content-between">
-                    <div class="shadow" style="color: red;"></div>
-                    <div class="shadow" style="color: orange;"></div>
-                    <div class="shadow" style="color: blue;"></div>
-                    <div class="shadow" style="color: cyan;"></div>
-                    <div class="shadow" style="color: yellow;"></div>
-                    <div class="shadow" style="color: green;"></div>
-                    <div class="shadow" style="color: purple;"></div>
+                    <div class="shadow animate__animated" style="color: red;"></div>
+                    <div class="shadow animate__animated" style="color: orange;"></div>
+                    <div class="shadow animate__animated" style="color: blue;"></div>
+                    <div class="shadow animate__animated" style="color: cyan;"></div>
+                    <div class="shadow animate__animated" style="color: yellow;"></div>
+                    <div class="shadow animate__animated" style="color: green;"></div>
+                    <div class="shadow animate__animated" style="color: purple;"></div>
                 </div>
             </div>
         </div>
@@ -39,6 +42,26 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
         <script type="text/javascript">
+            const animateCSS = (element, animation, prefix = 'animate__') =>
+                // We create a Promise and return it
+                new Promise((resolve, reject) => {
+                    const animationName = `${prefix}${animation}`;
+                    // const node = document.querySelector(element);
+                    const node = element;
+
+                    node.classList.add(`${prefix}animated`, animationName);
+
+                    // When the animation ends, we clean the classes and resolve the Promise
+                    function handleAnimationEnd() {
+                        node.classList.remove(`${prefix}animated`, animationName);
+                        node.removeEventListener('animationend', handleAnimationEnd);
+
+                        resolve('Animation ended');
+                    }
+
+                    node.addEventListener('animationend', handleAnimationEnd);
+                });
+
             $(function () {
                 const height = $(window).height();
                 $("#root").height(height *0.95);
@@ -47,14 +70,17 @@
                 const drawingCanvas = new KonvaDrawingCanvas(canvas.stage);
 
                 var currentColor = null;
+                const animationName = `animate__bounce`;
                 $("#palette div").on('click', (e) => {
                     if (currentColor != null) {
-                        // currentColor.css('border-color', 'white');
+                        currentColor.css('border-color', 'currentcolor');
                     }
+
                     currentColor = $(e.target);
-                    // currentColor.css('border-color', 'currentcolor');
-                    const color = currentColor.css('background-color');
-                    drawingCanvas.setColor(color);
+
+                    animateCSS(e.target, 'bounce');
+                    currentColor.css('border-color', 'white');
+                    drawingCanvas.setColor(currentColor.css('background-color'));
                 });
             });
 
