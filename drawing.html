@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        <title>Natiho Toys!</title>
+
+        <style type="text/css">
+            #palette div {
+                width: 4rem;
+                height: 4rem;
+                border-radius: 2rem;
+                border: currentcolor solid 10px;
+                background-color: currentcolor;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="root" class="container-fluid mt-3">
+            <div id="canvas" class="border shadow mb-5" style="height: 85%"></div>
+            <div id="toolbox">
+                <div id="palette" class="d-flex justify-content-between">
+                    <div class="shadow" style="color: red;"></div>
+                    <div class="shadow" style="color: orange;"></div>
+                    <div class="shadow" style="color: blue;"></div>
+                    <div class="shadow" style="color: cyan;"></div>
+                    <div class="shadow" style="color: yellow;"></div>
+                    <div class="shadow" style="color: green;"></div>
+                    <div class="shadow" style="color: purple;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                const height = $(window).height();
+                $("#root").height(height *0.95);
+
+                const canvas = new KonvaCanvas('canvas');
+                const drawingCanvas = new KonvaDrawingCanvas(canvas.stage);
+
+                var currentColor = null;
+                $("#palette div").on('click', (e) => {
+                    if (currentColor != null) {
+                        // currentColor.css('border-color', 'white');
+                    }
+                    currentColor = $(e.target);
+                    // currentColor.css('border-color', 'currentcolor');
+                    const color = currentColor.css('background-color');
+                    drawingCanvas.setColor(color);
+                });
+            });
+
+            class KonvaCanvas {
+
+                constructor(id) {
+                    const $canvas = $(`#${id}`);
+                    this.stage = new Konva.Stage({
+                        container: id,   // id of container <div>
+                        width: $canvas.width(),
+                        height: $canvas.height(),
+                    });
+                }
+            }
+
+            class KonvaDrawingCanvas {
+
+                constructor(stage) {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = stage.width();
+                    canvas.height = stage.height();
+      
+                    const image = new Konva.Image({
+                        image: canvas,
+                        x: 0,
+                        y: 0
+                    });
+                    const layer = new Konva.Layer();
+
+                    layer.add(image);
+                    stage.add(layer);
+                    stage.draw();                    
+
+                    const context = canvas.getContext('2d');
+                    context.strokeStyle = 'red';
+                    context.lineJoin = 'round';
+                    context.lineWidth = 8;
+                    this.context = context;
+
+                    var isPaint = false;
+                    var lastPointerPosition;
+                    var mode = 'brush';
+
+                    stage.on('mousedown touchstart', function() {
+                        isPaint = true;
+                        lastPointerPosition = stage.getPointerPosition();
+                    });
+
+                    stage.on('mouseup touchend', function() {
+                        isPaint = false;
+                    });
+
+                    stage.on('mousemove touchmove', function() {
+                        if (!isPaint) {
+                            return;
+                        }
+                        if (mode === 'brush') {
+                            context.globalCompositeOperation = 'source-over';
+                        }
+                        if (mode === 'eraser') {
+                            context.globalCompositeOperation = 'destination-out';
+                        }
+
+                        context.beginPath();
+                        var localPos = {
+                            x: lastPointerPosition.x - image.x(),
+                            y: lastPointerPosition.y - image.y()
+                        };
+                        context.moveTo(localPos.x, localPos.y);
+                        var pos = stage.getPointerPosition();
+                        localPos = {
+                            x: pos.x - image.x(),
+                            y: pos.y - image.y()
+                        };
+                        context.lineTo(localPos.x, localPos.y);
+                        context.closePath();
+                        context.stroke();
+
+                        lastPointerPosition = pos;
+                        layer.batchDraw();
+                    });
+                }
+
+                setColor(color) {
+                    this.context.strokeStyle = color;
+                }
+            }
+
+        </script>
+    </body>
+</html>
